@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Image Finder</title>
+    <link rel="stylesheet" href="style/style.css" media="screen" title="no title" charset="utf-8">
+	<!--source of the arrows -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div class="container">
+      <div class="asideContainer">
+        <div class="findContainer">
+          <a id="findBtn" class="btn findBtn">Find Images</a>
+        </div>
+
+        <div class="tagsContainer">
+          <h2>Tags</h2>
+          <div class="tagInputs" id="tagsInputs">
+              <input  class="tagsMain" type="text" name="tagInput" value="">
+            <input style="display:none" class="tags" type="text" name="tagInput" value=""><a class="removeBtn btn">-</a>
+          </div>
+          <div class="addNew" id="addNewBtn">
+            <a class="btn" id="addBtn">+</a>
+          </div>
+        </div>
+
+      </div>
+      <div class="carouselContainer">
+        <div class="carousel" id="carousel">
+          <div class="thumbnailsContainer">
+            <div class="innerDiv" id="thumbs">
+
+            </div>
+            <a class="arrow left" id="prev">
+              <i class="fa fa-arrow-left"></i>
+            </a>
+            <a class="arrow right" id="next">
+              <i class="fa fa-arrow-right"></i>
+            </a>
+          </div>
+          <div class="imgPreviewContainer" id="imgPreviewContainer">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--scripts -->
+    <script src="scripts/jquery.min.js" charset="utf-8"></script>
+    <script src="scripts/script.js" charset="utf-8"></script>
+  </body>
+</html>
