@@ -1,0 +1,307 @@
+
+<html>
+<head>
+<!--Laisvydas Vavilovas R00081683-->
+<title>Google Shoe Shop</title>
+<script type="text/javascript">
+//function for creating cookies
+function createcookies()
+{
+	theDate = new Date(2016, 6, 20);
+	theDate.toUTCString();
+	
+	var theform = document.forms["customerdetails"];
+	var firstName = theform["name"].value;
+	var lastName = theform["sname"].value;
+	var MobNumber = theform["vodafone"].value;
+	
+	document.cookie="name="+escape(firstName)+";expires="+theDate;
+	document.cookie="sname="+escape(lastName)+";expires="+theDate;
+	document.cookie="vodafone="+escape(MobNumber)+";expires="+theDate;
+}
+
+//function for reading existing cookies
+function readcookies()
+{
+	strCookie=document.cookie;
+	
+	intLocation=strCookie.indexOf("name=");
+	intStart=intLocation+5;
+	intEnd=strCookie.indexOf(";", intStart);
+	strName = strCookie.substring(intStart, intEnd);
+	document.getElementById("name").value=unescape(strName);
+	
+	intLocation=strCookie.indexOf("sname=");
+	intStart=intLocation+6;
+	intEnd=strCookie.indexOf(";", intStart);
+	strSurname = strCookie.substring(intStart, intEnd);
+	document.getElementById("sname").value=unescape(strSurname);
+	
+	intLocation=strCookie.indexOf("vodafone=");
+	intStart=intLocation+9;
+	intEnd=strCookie.length;
+	strPhone = strCookie.substring(intStart, intEnd);
+	document.getElementById("vodafone").value=unescape(strPhone);
+	
+}
+//function to validate a credit card number
+function creditcardgood(cardnum)
+{
+// assume everything is good
+var valid = new Boolean(true);
+var sum=0;
+
+if (cardnum.length != 16)
+	valid=false;
+
+for (n=0;n<cardnum.length;n++)
+{
+	// extract nth character
+	c = cardnum.slice(n,n+1);
+	
+	// is it not a digit?
+	if ((c < "0") || (c > "9"))
+	{
+		valid=false;
+	}
+}
+
+for (i=0; i<cardnum.length; i++)
+{
+	num = parseInt(cardnum.slice(i,i+1), 10);
+	if (i % 2  == 0) // check if deigit is even
+	{
+		num *= 2; // if even multiply by 2
+        
+		if (num > 9)
+		{
+		num -= 9;
+		}
+	}
+
+	sum += num;
+}
+
+if(sum % 10 != 0)
+{
+	valid=false;
+}
+
+return valid;
+
+}
+
+function checkcc()
+{
+num = document.getElementById("ccnum").value
+if (creditcardgood(num))
+	{
+	document.getElementById("ccnum").style.background="#00ff00";
+	}
+else
+	{
+	document.getElementById("ccnum").style.background="#ff6666";
+	}
+}
+// function for validating form inputs
+function validateinput()
+{
+	var result = true;
+	createcookies();
+	
+	if (document.getElementById('name').value=="")
+	{
+		alert("name missing");
+		document.getElementById('name').style.background="yellow";
+		document.getElementById('name').style.border="solid red 2px";
+		result = false;
+	}
+	
+	if (document.getElementById('sname').value=="")
+	{
+		alert("surname missing");
+		document.getElementById('sname').style.background="yellow";
+		document.getElementById('sname').style.border="solid red 2px";
+		result = false;
+	}
+
+	if (document.getElementById('address').value=="")
+	{
+	    alert("address missing");
+		document.getElementById("address").style.background="yellow";
+		result = false;
+	}
+	
+	num = document.getElementById("ccnum").value
+	if (creditcardgood(num) == false)
+	{
+		alert("card number entered is invalid");
+		result = false;
+	}
+	
+	return result;
+}
+//function to calculate price when the shoe color changes
+function colorprice()
+{
+	price-=color; //reset the price everytime
+	color-=color; //reset the price of color change
+	
+	if(document.getElementById("default").selected)
+	{
+		document.getElementById('spend').style.backgroundColor="#ffffff";
+		color=10;
+		price+=color;
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}
+	if(document.getElementById("color1").selected)
+	{
+		document.getElementById('spend').style.backgroundColor="#000000";
+		color=20;
+		price+=color;         
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}
+	
+	if(document.getElementById("color2").selected)
+	{
+		document.getElementById('spend').style.backgroundColor="#3333ff";
+		color=30;
+		price+=color;
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}
+	if(document.getElementById("color3").selected)
+	{
+		document.getElementById('spend').style.backgroundColor="#ff4da6";
+		color=40;
+		price+=color;
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}
+	discount();
+}
+//function for shoe blade and heely attributes
+function gadgets()
+{
+	price-=(type+blade);
+	type-=type;
+	blade-=blade;
+	
+	document.getElementById('spend').src="shoe1.png";
+	type=20;
+	price+=type;
+	document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+		
+	if(document.getElementById("blade").checked)
+	{
+		document.getElementById('spend').src="blade.png";
+		blade=200;
+		price+=blade;
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}
+	
+	if(document.getElementById("box1").checked)
+	{
+		document.getElementById('spend').src="heely.png";
+		type=40;
+		price+=type;
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}
+	
+	if(document.getElementById("box1").checked && document.getElementById("blade").checked)
+	{
+		document.getElementById('spend').src="heely_blade.png";
+		type=40;
+		blade=200;
+		price+=(type+blade);
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}	
+	
+	discount();
+}
+//function for applying discount
+function discount()
+{
+	phone = document.getElementById("vodafone").value;
+	
+	if (phone.substring(0,3) == "087")
+	{
+		price=0;
+		price=blade+type+color;
+		document.getElementById("vodafone").style.borderColor ="#99ff99";
+		price *= 0.8;
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}
+	else
+	{
+		price=0;
+		document.getElementById("vodafone").style.borderColor ="";
+		price=blade+type+color;
+		document.getElementById("price").innerHTML = "€" + price.toFixed(2);
+	}
+}
+
+</script>
+
+</head>
+<body onload="readcookies();">
+<script type="text/javascript">
+var price = 30;
+var blade= 0;
+var type=20;
+var color=10;
+</script>
+
+<div align="center" >
+<h1>Google Shoe Shop</h1>
+
+<div align="center"><img src="shoe1.png" id="spend" width="618" height="390" alt="shoe" /></p></div>
+
+<br/><br/>
+<form name="theform" id="customerdetails"  onsubmit="return validateinput();"  onsubmit="return creditcardgood(cardnum);"  method="get" action="http://atlantis.cit.ie/displayvalues.php">
+<p id="price">The current Price is €30 </p><br>
+<div>
+	Check the box to add shoe blade:
+	
+	<div onchange="gadgets()";>
+		<input type="checkbox" id="blade" name="With Blade" value="Yes"  />With Blade
+	</div>
+<br/>
+<br/>
+Check the box to add heely:
+	
+	<div id="radios" onchange="gadgets()"; >
+     	<input type="checkbox" id="box1" name="With heely" value="Yes" />With Heely
+	</div>
+<br/>
+	
+	Select Shoe Colour Theme:
+	<br/>
+		<div id="colours">
+		<select onchange="colorprice()";>
+			<option id="default" name="colorA" value="white" selected >White
+			<option id="color1" name="colorB" value="black" >Black
+			<option id="color2" name="colorC" value="blue" >Blue
+			<option id="color3" name="colorD" value="pink" >Pink
+		</select>
+	</div>
+<br/>
+<b>Personal Details</b>
+<hr>
+
+<label>Enter your name:</label> <input type="text" name="fname" id="name"  /><br />
+<label>Enter your surname:</label> <input type="text" name="surname" id="sname"  /><br />
+<label>Enter your e-mail:</label> <input type="email" name="e-mail" id="mail"  /><br />
+<label>Enter your mobile number:</label> <input type="text" onchange="discount()"; name="phonenumber" id="vodafone" required /><br/>*Customers with "087" number receive 20% discount<br/><br/>
+<label>Enter your address:</label><br/><textarea type="text" name="addres" id="address"  ></textarea><br />
+<hr>
+<b>Payment</b>
+<br><br>
+<label>Credit Card Number:</label> <input type="number" onchange="checkcc()" name="ccnumber" id="ccnum" required /><br />
+<label>Expiry date:</label> <input type="date"  id="numtext" required /><br />
+<label>CVV:</label> <input type="text" id="numtext" required /><br />
+<hr>
+<input type="submit" value="Buy Now" />
+</form> 
+</div>
+<footer>&copy Laisvydas Vavilovas 2015</footer>
+<br/><br/>
+</html>
