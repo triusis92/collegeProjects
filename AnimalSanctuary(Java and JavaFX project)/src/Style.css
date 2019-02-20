@@ -1,0 +1,23 @@
+@CHARSET "ISO-8859-1";
+.root{
+    -fx-background-color: #383838;
+}
+
+.button{
+    -fx-background-color: #AB4642;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+}
+.button-blue{
+    -fx-background-color: #7cafc2;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-radius: 4;
+}
+.label{
+    -fx-text-fill: #AB4642;
+    
+    
+}
+#bold-label{
+    -fx-font-weight: bold;
+}
